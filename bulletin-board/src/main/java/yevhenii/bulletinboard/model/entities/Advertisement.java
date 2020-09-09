@@ -1,4 +1,4 @@
-package yevhenii.bulletinboard.model;
+package yevhenii.bulletinboard.model.entities;
 
 import lombok.Data;
 

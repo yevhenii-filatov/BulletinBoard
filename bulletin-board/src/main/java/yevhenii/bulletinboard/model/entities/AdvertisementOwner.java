@@ -1,5 +1,6 @@
-package yevhenii.bulletinboard.model;
+package yevhenii.bulletinboard.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -31,12 +32,15 @@ public class AdvertisementOwner implements Serializable {
     @Column(name = "photo_url")
     private String photoUrl;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "advertisementOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvertisementOwnerPhone> phones = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "advertisementOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvertisementOwnerEmail> emails = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Advertisement> advertisements;
 }
