@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,13 +32,12 @@ public class AdvertisementOwner implements Serializable {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "advertisementOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AdvertisementOwnerPhone> phones = new ArrayList<>();
+    @Email
+    @Column(name = "email")
+    private String email;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "advertisementOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AdvertisementOwnerEmail> emails = new ArrayList<>();
+    @Column(name = "phone")
+    private String phone;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
