@@ -1,4 +1,4 @@
-package yevhenii.bulletinboard.model;
+package yevhenii.bulletinboard.model.entities.auth;
 
 /**
  * @author Yevhenii Filatov

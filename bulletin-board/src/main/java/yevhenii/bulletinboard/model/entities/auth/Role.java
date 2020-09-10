@@ -1,7 +1,6 @@
 package yevhenii.bulletinboard.model.entities.auth;
 
 import lombok.Data;
-import yevhenii.bulletinboard.model.RoleName;
 
 import javax.persistence.*;
 
