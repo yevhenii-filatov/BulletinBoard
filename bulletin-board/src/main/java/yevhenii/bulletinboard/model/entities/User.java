@@ -1,5 +1,6 @@
-package yevhenii.bulletinboard.model.entities.auth;
+package yevhenii.bulletinboard.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
 
 /**
  * @author Yevhenii Filatov
@@ -25,17 +27,21 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
 })
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
+    @Column(name = "id")
     private Long id;
 
     @NotBlank
     @Size(max = 20)
     @Getter
     @Setter
+    @Column(name = "username")
     private String username;
 
     @NotBlank
@@ -43,12 +49,22 @@ public class User {
     @Email
     @Getter
     @Setter
+    @Column(name = "email")
     private String email;
+
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    @Getter
+    @Setter
+    @Column(name = "phone")
+    private String phone;
 
     @NotBlank
     @Size(max = 120)
     @Getter
     @Setter
+    @Column(name = "password")
     private String password;
 
     @Getter
@@ -59,9 +75,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+    @Getter
+    @Setter
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Advertisement> advertisements;
 }

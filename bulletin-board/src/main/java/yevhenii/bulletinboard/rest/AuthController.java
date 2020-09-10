@@ -8,9 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import yevhenii.bulletinboard.model.entities.auth.Role;
-import yevhenii.bulletinboard.model.entities.auth.RoleName;
-import yevhenii.bulletinboard.model.entities.auth.User;
+import yevhenii.bulletinboard.model.entities.Role;
+import yevhenii.bulletinboard.model.entities.RoleName;
+import yevhenii.bulletinboard.model.entities.User;
 import yevhenii.bulletinboard.model.payload.request.LoginRequest;
 import yevhenii.bulletinboard.model.payload.request.SignUpRequest;
 import yevhenii.bulletinboard.model.payload.response.JwtResponse;
@@ -80,6 +80,7 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         String username = signUpRequest.getUsername();
         String email = signUpRequest.getEmail();
+        String phone = signUpRequest.getPhone();
         String password = signUpRequest.getPassword();
         if (userRepository.existsByUsername(username)) {
             return ResponseEntity
@@ -91,7 +92,11 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-        User user = new User(username, email, passwordEncoder.encode(password));
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setPhone(phone);
         user.setRoles(prepareRoles(signUpRequest));
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("Registration successful"));

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Yevhenii Filatov
@@ -13,10 +14,15 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LoginRequest {
+public class CreateAdvertisementRequest {
     @NotBlank
-    String username;
+    String title;
+
+    @NotNull
+    Double price;
 
     @NotBlank
-    String password;
+    String description;
+
+    String photoUrl;
 }

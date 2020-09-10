@@ -1,4 +1,4 @@
-package yevhenii.bulletinboard.model.entities.auth;
+package yevhenii.bulletinboard.model.entities;
 
 import lombok.Data;
 

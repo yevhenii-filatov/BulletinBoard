@@ -6,8 +6,8 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import yevhenii.bulletinboard.model.entities.auth.Role;
-import yevhenii.bulletinboard.model.entities.auth.User;
+import yevhenii.bulletinboard.model.entities.Role;
+import yevhenii.bulletinboard.model.entities.User;
 
 import java.util.Collection;
 import java.util.List;

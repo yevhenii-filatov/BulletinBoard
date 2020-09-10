@@ -1,9 +1,10 @@
-package yevhenii.bulletinboard.model.payload.response;
+package yevhenii.bulletinboard.model.payload.request;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author Yevhenii Filatov
@@ -11,8 +12,8 @@ import lombok.experimental.FieldDefaults;
  */
 
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class MessageResponse {
-    String message;
+public class DeleteUserRequest {
+    @NotBlank
+    String email;
 }

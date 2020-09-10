@@ -2,8 +2,8 @@ package yevhenii.bulletinboard.repository.auth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import yevhenii.bulletinboard.model.entities.auth.Role;
-import yevhenii.bulletinboard.model.entities.auth.RoleName;
+import yevhenii.bulletinboard.model.entities.Role;
+import yevhenii.bulletinboard.model.entities.RoleName;
 
 import java.util.Optional;
 

@@ -41,6 +41,6 @@ public class Advertisement implements Serializable {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "advertisement_owner_id", nullable = false)
-    private AdvertisementOwner owner;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
 }

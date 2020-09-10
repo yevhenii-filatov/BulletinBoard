@@ -7,16 +7,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import yevhenii.bulletinboard.model.entities.Advertisement;
-import yevhenii.bulletinboard.model.entities.AdvertisementOwner;
-import yevhenii.bulletinboard.repository.AdvertisementOwnerRepository;
+import yevhenii.bulletinboard.model.entities.User;
+import yevhenii.bulletinboard.model.payload.request.CreateAdvertisementRequest;
+import yevhenii.bulletinboard.model.payload.response.MessageResponse;
 import yevhenii.bulletinboard.repository.AdvertisementRepository;
+import yevhenii.bulletinboard.repository.auth.UserRepository;
+import yevhenii.bulletinboard.security.services.UserDetailsImpl;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Yevhenii Filatov
@@ -29,12 +35,12 @@ import java.util.Objects;
 @RequestMapping("/api/advertisements")
 public class AdvertisementController {
     private final AdvertisementRepository advertisementRepository;
-    private final AdvertisementOwnerRepository advertisementOwnerRepository;
+    private final UserRepository userRepository;
 
     public AdvertisementController(AdvertisementRepository advertisementRepository,
-                                   AdvertisementOwnerRepository advertisementOwnerRepository) {
+                                   UserRepository userRepository) {
         this.advertisementRepository = advertisementRepository;
-        this.advertisementOwnerRepository = advertisementOwnerRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/all")
@@ -54,14 +60,36 @@ public class AdvertisementController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/owner-details")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
-    public ResponseEntity<AdvertisementOwner> getAdvertisementOwnerDetails(@RequestParam(name = "id") Long id) {
-        AdvertisementOwner owner = advertisementOwnerRepository.findById(id).orElse(null);
-        if (Objects.isNull(owner)) {
-            return ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<>(owner, HttpStatus.OK);
+    @Transactional
+    @PostMapping("/create")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER')")
+    public ResponseEntity<?> createAdvertisement(@Valid @RequestBody CreateAdvertisementRequest createAdvertisementRequest) {
+        Advertisement advertisement = createAdvertisementFromRequest(createAdvertisementRequest);
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+        User owner = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User with username " + username + " not found"));
+        advertisement.setOwner(owner);
+        advertisementRepository.save(advertisement);
+        return ResponseEntity.ok(new MessageResponse("Advertisement was saved successfully"));
     }
+
+    private Advertisement createAdvertisementFromRequest(CreateAdvertisementRequest createAdvertisementRequest) {
+        String title = createAdvertisementRequest.getTitle();
+        Double price = createAdvertisementRequest.getPrice();
+        String description = createAdvertisementRequest.getDescription();
+        String photoUrl = createAdvertisementRequest.getPhotoUrl();
+        Advertisement advertisement = new Advertisement();
+        advertisement.setTitle(title);
+        advertisement.setPrice(price);
+        advertisement.setDescription(description);
+        advertisement.setPhotoUrl(photoUrl);
+        advertisement.setPublicationDate(LocalDateTime.now());
+        return advertisement;
+    }
+
 }
 

@@ -1,6 +1,8 @@
 package yevhenii.bulletinboard.model.payload.response;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
@@ -10,13 +12,14 @@ import java.util.Set;
  */
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JwtResponse {
-    private String token;
-    private String type = "Bearer";
-    private Long id;
-    private String username;
-    private String email;
-    private Set<String> roles;
+    String token;
+    String type = "Bearer";
+    Long id;
+    String username;
+    String email;
+    Set<String> roles;
 
     public JwtResponse(String accessToken, Long id, String username, String email, Set<String> roles) {
         this.token = accessToken;

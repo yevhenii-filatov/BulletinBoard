@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import yevhenii.bulletinboard.model.entities.auth.User;
+import yevhenii.bulletinboard.model.entities.User;
 import yevhenii.bulletinboard.repository.auth.UserRepository;
 
 /**
