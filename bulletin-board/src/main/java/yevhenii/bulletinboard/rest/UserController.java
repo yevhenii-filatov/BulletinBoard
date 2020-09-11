@@ -1,6 +1,5 @@
 package yevhenii.bulletinboard.rest;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +8,7 @@ import yevhenii.bulletinboard.model.entities.User;
 import yevhenii.bulletinboard.model.payload.request.DeleteUserRequest;
 import yevhenii.bulletinboard.model.payload.request.UpdateUserEmailRequest;
 import yevhenii.bulletinboard.model.payload.response.MessageResponse;
-import yevhenii.bulletinboard.repository.auth.UserRepository;
+import yevhenii.bulletinboard.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -20,7 +19,6 @@ import java.util.Objects;
  * @since 9/10/20
  */
 
-@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/users")

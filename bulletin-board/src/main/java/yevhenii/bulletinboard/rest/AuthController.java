@@ -15,8 +15,8 @@ import yevhenii.bulletinboard.model.payload.request.LoginRequest;
 import yevhenii.bulletinboard.model.payload.request.SignUpRequest;
 import yevhenii.bulletinboard.model.payload.response.JwtResponse;
 import yevhenii.bulletinboard.model.payload.response.MessageResponse;
-import yevhenii.bulletinboard.repository.auth.RoleRepository;
-import yevhenii.bulletinboard.repository.auth.UserRepository;
+import yevhenii.bulletinboard.repository.RoleRepository;
+import yevhenii.bulletinboard.repository.UserRepository;
 import yevhenii.bulletinboard.security.jwt.JwtUtils;
 import yevhenii.bulletinboard.security.services.UserDetailsImpl;
 

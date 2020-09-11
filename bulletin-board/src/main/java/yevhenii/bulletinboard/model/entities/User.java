@@ -1,10 +1,8 @@
 package yevhenii.bulletinboard.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,6 +21,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
@@ -35,14 +34,14 @@ public class User implements Serializable {
     @Getter
     @Setter
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @NotBlank
     @Size(max = 20)
     @Getter
     @Setter
     @Column(name = "username")
-    private String username;
+    String username;
 
     @NotBlank
     @Size(max = 50)
@@ -50,7 +49,7 @@ public class User implements Serializable {
     @Getter
     @Setter
     @Column(name = "email")
-    private String email;
+    String email;
 
     @NotBlank
     @Size(max = 50)
@@ -58,26 +57,28 @@ public class User implements Serializable {
     @Getter
     @Setter
     @Column(name = "phone")
-    private String phone;
+    String phone;
 
+    @JsonIgnore
     @NotBlank
     @Size(max = 120)
     @Getter
     @Setter
     @Column(name = "password")
-    private String password;
+    String password;
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    transient Set<Role> roles = new HashSet<>();
 
     @Getter
     @Setter
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Advertisement> advertisements;
+    transient List<Advertisement> advertisements;
 }

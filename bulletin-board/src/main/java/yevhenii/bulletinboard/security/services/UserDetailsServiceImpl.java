@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import yevhenii.bulletinboard.model.entities.User;
-import yevhenii.bulletinboard.repository.auth.UserRepository;
+import yevhenii.bulletinboard.repository.UserRepository;
 
 /**
  * @author Yevhenii Filatov

@@ -1,6 +1,8 @@
 package yevhenii.bulletinboard.security.jwt;
 
 import io.jsonwebtoken.*;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -16,12 +18,13 @@ import java.util.Date;
 
 @Slf4j
 @Component
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JwtUtils {
     @Value("${yevhenii.app.jwt-secret}")
-    private String jwtSecret;
+    String jwtSecret;
 
     @Value("${yevhenii.app.jwt-expiration-ms}")
-    private Integer jwtExpirationMs;
+    Integer jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();

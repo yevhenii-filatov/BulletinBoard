@@ -1,6 +1,7 @@
 package yevhenii.bulletinboard.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,12 +25,16 @@ import yevhenii.bulletinboard.security.services.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    final UserDetailsServiceImpl userDetailsService;
+    final AuthEntryPointJwt unauthorizedHandler;
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    public WebSecurityConfiguration(UserDetailsServiceImpl userDetailsService,
+                                    AuthEntryPointJwt unauthorizedHandler) {
+        this.userDetailsService = userDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {

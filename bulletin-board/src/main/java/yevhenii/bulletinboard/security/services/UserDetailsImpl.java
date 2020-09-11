@@ -1,8 +1,10 @@
 package yevhenii.bulletinboard.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,24 +22,25 @@ import java.util.stream.Collectors;
  */
 
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Getter
-    private Long id;
+    Long id;
 
     @Getter
-    private String username;
+    String username;
 
     @Getter
-    private String email;
+    String email;
 
     @Getter
     @JsonIgnore
-    private String password;
+    String password;
 
     @Getter
-    private Collection<? extends GrantedAuthority> authorities;
+    transient Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = user

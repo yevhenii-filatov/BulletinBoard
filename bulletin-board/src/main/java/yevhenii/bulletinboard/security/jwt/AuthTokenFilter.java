@@ -1,5 +1,7 @@
 package yevhenii.bulletinboard.security.jwt;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,12 +25,13 @@ import java.util.Objects;
  */
 
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
-    private JwtUtils jwtUtils;
+    JwtUtils jwtUtils;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
