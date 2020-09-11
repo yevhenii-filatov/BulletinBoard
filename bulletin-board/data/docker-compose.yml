@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  denovo-mysql:
+    container_name: extrawest-test
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: extrawest
+      MYSQL_USER: yevhenii
+      MYSQL_PASSWORD: extrawest
+      ssl-mode: DISABLED
