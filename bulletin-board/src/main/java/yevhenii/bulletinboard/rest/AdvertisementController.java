@@ -64,9 +64,9 @@ public class AdvertisementController {
 
     private Sort convertSortingParam(String sorting) {
         if (StringUtils.isNotBlank(sorting) && StringUtils.equalsIgnoreCase(sorting, "desc")) {
-            return Sort.by(Sort.Direction.DESC);
+            return Sort.by(Sort.Direction.DESC, "publicationDate");
         }
-        return Sort.by(Sort.Direction.ASC);
+        return Sort.by(Sort.Direction.ASC, "publicationDate");
     }
 
     @GetMapping("/details")
